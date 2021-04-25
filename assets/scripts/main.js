@@ -1,3 +1,5 @@
+import "../scss/styles.scss";
+
 import { handle } from "./chats";
 // eslint-disable-next-line no-undef
 const socket = io("/");
