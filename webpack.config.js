@@ -10,7 +10,7 @@ const config = {
     plugins: [new MiniCssExtractPlugin({ filename: "css/styles.css" })],
     module: {
         rules: [{
-            test: /\.(js)&/,
+            test: /\.(js)$/,
             use: {
                 loader: 'babel-loader',
                 options: {
