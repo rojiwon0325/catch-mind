@@ -1,3 +1,4 @@
+import { initCanvas } from "./paint";
 import { initSockets } from "./sockets";
 
 /* eslint-disable no-undef */
@@ -14,6 +15,7 @@ const logIn = (nickname) => {
     const socket = io("/");
     socket.emit(window.events.setNickname, { nickname });
     initSockets(socket);
+    initCanvas();
 }
 
 if (nickname === null) {

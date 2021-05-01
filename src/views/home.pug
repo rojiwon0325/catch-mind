@@ -11,6 +11,13 @@ html(lang="en")
             form#jsLogin
                 input(placeholder="What's your name?", type="text")
         .gameContainer#jsGame
+            .canvas__wrap
+                canvas.canvas#jsCanvas
+                .canvas__controls
+                    button.canvas__controls__btn--fill#jsFill Fill
+                    button.canvas__controls__btn--save#jsSave Save
+                    input(type="color").canvas__controls--color#jsColor
+                    input(type="range").canvas__controls--range#jsRange
             .chat
                 ul.chat__messages#jsMessages
                 form.chat__form#jsSendMsg
