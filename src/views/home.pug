@@ -14,15 +14,24 @@ html(lang="en")
             .canvas__wrap
                 canvas.canvas#jsCanvas
                 .canvas__controls
-                    button.canvas__controls__btn--fill#jsFill Fill
                     button.canvas__controls__btn--save#jsSave Save
+                    button.canvas__controls__btn--remove#jsRemove Remove
                     input(type="color").canvas__controls--color#jsColor
-                    input(type="range").canvas__controls--range#jsRange
-            .chat
-                ul.chat__messages#jsMessages
+                    .canvas__controls__slider#jsStroke
+                        .slider__rail
+                            div(
+                            aria-valuemin="1",
+                            aria-valuemax="100",
+                            aria-valuenow="1",
+                            aria-orientation="vertical"
+                            ).slider__handler
+
                 form.chat__form#jsSendMsg
                     input(placeholder="Write a message", type="text")
+                        
+            .chat
+                ul.chat__messages#jsMessages
         script.
             window.events = !{events}
         script(src="/socket.io/socket.io.js")
-        script(src="scripts/main.js")
+        script(defer src="scripts/main.js")
