@@ -3,17 +3,28 @@
       transform: translateY(80px);
       opacity: 0;
     }
-    50% {
-      transform: translateY(-90px);
+    50%{
       opacity: 1;
     }
     100% {
-      transform: translateY(-70px);
+      transform: translateY(0px);
       opacity: 1;
     }
   }
-  
-  @keyframes dissapear {
+@keyframes resize {
+  0%{
+    margin-top: 0;
+    padding: 0;
+    height: 0;
+  }
+  100% {
+      margin-top: 5px;
+      padding: 20px 50px;
+      height: auto;
+    }
+  }
+
+@keyframes disapear {
     from {
       opacity: 1;
     }
@@ -21,21 +32,22 @@
       opacity: 0;
     }
   }
-  
-  .notification {
-    opacity: 0;
-    bottom: -100px;
-    position: absolute;
-    bottom: 0px;
-    left: 50px;
-    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-      0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
-    background-color: white;
-    padding: 20px 50px;
+  .notification__wrap{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    .notification{
+    background-color: black;
     text-align: center;
     border-radius: 50px;
-    animation: notification 0.5s ease-out forwards,
-      dissapear 0.5s ease-in forwards;
-    animation-delay: 0.5s, 2s;
-    color: white;
+    color:white;
+    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+      0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+    opacity: 0;
+    height: 0px;
+    animation: resize 0.3s ease forwards,
+      notification 0.5s ease-out forwards,
+      disapear 0.5s ease-in forwards;
+    animation-delay: 0s, 0.3s, 2s;
+    }
   }

@@ -13,7 +13,7 @@ html(lang="en")
         .gameContainer#jsGame
             .canvas__wrap
                 canvas.canvas#jsCanvas
-                .canvas__controls
+                .canvas__controls.none#jsControls
                     button.canvas__controls__btn--save#jsSave Save
                     button.canvas__controls__btn--remove#jsRemove Remove
                     input(type="color").canvas__controls--color#jsColor
@@ -30,7 +30,9 @@ html(lang="en")
                     input(placeholder="Write a message", type="text")
                         
             .chat
+                .player__board#jsPBoard
                 ul.chat__messages#jsMessages
+        .notification__wrap
         script.
             window.events = !{events}
         script(src="/socket.io/socket.io.js")
