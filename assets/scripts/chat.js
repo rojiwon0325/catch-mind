@@ -5,7 +5,7 @@ const sendMsg = document.getElementById("jsSendMsg");
 
 const appendMsg = (text, nickname) => {
     const li = document.createElement("li");
-    li.innerHTML = `<span class="author ${nickname ? "out" : "self"}">${nickname ? nickname : "You"}: </span>${text}`;
+    li.innerHTML = `<span class="author ${nickname ? "other" : "self"}">${nickname ? nickname : "You"}: </span>${text}`;
     messages.appendChild(li);
     li.scrollIntoView({ behavior: "smooth" });
 };
@@ -28,6 +28,7 @@ export const enableInput = () => {
 export const disableInput = () => {
     sendMsg.classList.add("none");
 };
+
 
 if (sendMsg) {
     sendMsg.addEventListener("submit", handleSendMsg);

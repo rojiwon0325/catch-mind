@@ -1,14 +1,17 @@
 
 const body = document.querySelector("body");
-const notif_wrap = body.querySelector(".notification__wrap");
+const notif_container = body.querySelector(".notification__container");
 
 export const fireNotif = (text, color) => {
-    const notif = document.createElement("div");
+    const div = document.createElement("div");
+    div.className = "notification__wrap";
+    const notif = document.createElement("span");
     notif.className = "notification";
     notif.innerText = text;
     notif.style.backgroundColor = color;
-    notif_wrap.appendChild(notif);
-    setTimeout(() => { notif_wrap.removeChild(notif) }, 3000);
+    notif_container.appendChild(div);
+    div.appendChild(notif);
+    setTimeout(() => { notif_container.removeChild(div) }, 3000);
 }
 
 export const handleNewUser = (socket) => {

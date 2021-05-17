@@ -12,6 +12,8 @@ html(lang="en")
                 input(placeholder="What's your name?", type="text")
         .gameContainer#jsGame
             .canvas__wrap
+                .answer-board
+                    span.answer-board__word.none#jsWord
                 canvas.canvas#jsCanvas
                 .canvas__controls.none#jsControls
                     button.canvas__controls__btn--save#jsSave Save
@@ -32,7 +34,7 @@ html(lang="en")
             .chat
                 .player__board#jsPBoard
                 ul.chat__messages#jsMessages
-        .notification__wrap
+        .notification__container
         script.
             window.events = !{events}
         script(src="/socket.io/socket.io.js")

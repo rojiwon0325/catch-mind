@@ -13,7 +13,8 @@ const events = {
     drawCanvas: "drawCanvas",
     playerUpdate: "playerUpdate",
     gameStart: "gameStart",
-    gameOver: "gameOver"
+    gameOver: "gameOver",
+    answer: "answer"
 };
 
 export default events;

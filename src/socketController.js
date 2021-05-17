@@ -6,6 +6,8 @@ let sockets = [];
 let play = false;
 let painter = null;
 let word = null;
+let restart = null;
+let gamestart = null;
 
 const choosePainter = () => sockets[Math.floor(Math.random() * sockets.length)]
 
@@ -17,7 +19,9 @@ const socketController = (socket, io) => {
             painter = choosePainter();
             word = chooseWord();
             io.emit(events.gameStart, ({ word, painter }));
+            io.emit(events.newMsg, { message: "====GAME START!====", nickname: "manager" });
         }
+        gamestart = null;
     }
     const gameOver = () => {
         if (play) {
@@ -25,6 +29,8 @@ const socketController = (socket, io) => {
             painter = null;
             word = null;
             io.emit(events.gameOver);
+            io.emit(events.newMsg, { message: "====GAME OVER!====", nickname: "manager" });
+            sockets.forEach(socket => { socket.points = 0 });
         }
     };
     socket.on(events.setNickname, ({ nickname }) => {
@@ -33,22 +39,54 @@ const socketController = (socket, io) => {
 
         broadcast(events.newUser, { socket: sockets[sockets.length - 1] });
         io.emit(events.playerUpdate, { sockets });
-        setTimeout(() => gameStart(), 3000);
+        gamestart = setTimeout(() => gameStart(), 3000);
     });
     socket.on(events.disconnect, () => {
         sockets = sockets.filter(aSocket => socket.id !== aSocket.id);
         broadcast(events.disconnected, { nickname: socket.nickname });
 
-        if (play && painter.id == socket.id) {
-            play = false;
-            setTimeout(() => gameStart(), 3000);
-        } else if (play && sockets.length == 1) {
-            gameOver();
+        if (sockets.length == 1) {
+            if (gamestart) {
+                clearTimeout(gamestart);
+                gamestart = null;
+            }
+            if (play) {
+                gameOver();
+            }
+        }
+        else if (play && painter.id == socket.id) {
+            io.emit(events.newMsg, { message: `ANSWER is '${word}'!`, nickname: "manager" });
+            painter = choosePainter();
+            word = chooseWord();
+            io.emit(events.gameStart, ({ word, painter }));
+            io.emit(events.newMsg, { message: "====NEXT START!====", nickname: "manager" });
         }
         io.emit(events.playerUpdate, { sockets });
     });
     socket.on(events.sendMsg, ({ message }) => {
-        broadcast(events.newMsg, { message, nickname: socket.nickname });
+        if (message == word) {
+            sockets.forEach(aSocket => {
+                if (socket.id == aSocket.id) {
+                    aSocket.points = aSocket.points + 1;
+                    io.to(socket.id).emit(events.answer);
+                    io.emit(events.playerUpdate, { sockets });
+                    broadcast(events.newMsg, { message: "ANSWER!", nickname: socket.nickname });
+                    if (!restart) {
+                        restart = setTimeout(
+                            () => {
+                                painter = aSocket;
+                                io.emit(events.newMsg, { message: `ANSWER is '${word}'!`, nickname: "manager" });
+                                word = chooseWord();
+                                io.emit(events.gameStart, ({ word, painter }));
+                                io.emit(events.newMsg, { message: "====NEXT START!====", nickname: "manager" });
+                                restart = null;
+                            }, 3000);
+                    }
+                }
+            });
+        } else {
+            broadcast(events.newMsg, { message, nickname: socket.nickname });
+        }
     })
     socket.on(events.beginPath, ({ x, y }) =>
         broadcast(events.AckBeginPath, { x, y })
