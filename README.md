@@ -4,4 +4,5 @@ Realtime Game built with SocketIO, Gulp and NodeJS
 
 ## To Do:
 
-- [x] gulp -> webpack
+- [ ] add SOUND
+- [ ] add clock(countdown)
