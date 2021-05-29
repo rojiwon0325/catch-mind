@@ -9,7 +9,8 @@ const answer = document.getElementById("jsWord");
 const boardUpdate = (players) => {
     board.innerHTML = "";
     players.forEach(player => {
-        const pElem = document.createElement("span");
+        const pElem = document.createElement("div");
+        pElem.className = "player-board__player"
         pElem.innerText = `${player.nickname}: ${player.points}`;
         board.appendChild(pElem);
     })
@@ -17,7 +18,7 @@ const boardUpdate = (players) => {
 export const handlePlayerUpdate = ({ sockets }) => boardUpdate(sockets);
 
 export const handleGameStart = ({ word, painter }) => {
-    fireNotif("GAME START!", "rgb(0, 122, 255)");
+    fireNotif("ROUND START!", "rgb(0, 122, 255)");
     if (getSocket().id != painter.id) {
         answer.innerText = "";
         answer.classList.add("none");

@@ -35,6 +35,18 @@ const handlePainting = (e) => {
         if (painting) {
             beginPath(e.offsetX, e.offsetY);
         }
+    } else if (e.type == "mouseover") {
+        const x = e.offsetX;
+        const y = e.offsetY;
+        if (painting) {
+            beginPath(x, y);
+            strokePath(x, y);
+            getSocket().emit(window.events.beginPath, { x, y });
+            getSocket().emit(window.events.strokePath, { x, y, color: ctx.strokeStyle, stroke: ctx.lineWidth });
+        } else {
+            beginPath(x, y);
+            getSocket().emit(window.events.beginPath, { x, y });
+        }
     }
 };
 
@@ -111,11 +123,13 @@ export const handleClickRemove = () => ctx.clearRect(0, 0, canvas.width, canvas.
 
 export const enableCanvas = () => {
     controls.classList.remove("none");
+    slider.init();
     canvas.addEventListener("mousedown", handlePainting);
     canvas.addEventListener("contextmenu", handlePainting);
     window.addEventListener("mouseup", handlePainting);
     canvas.addEventListener("mousemove", handlePainting);
     canvas.addEventListener("mouseenter", handlePainting);
+    canvas.addEventListener("mouseover", handlePainting);
 }
 
 export const disableCanvas = () => {
@@ -125,4 +139,5 @@ export const disableCanvas = () => {
     window.removeEventListener("mouseup", handlePainting);
     canvas.removeEventListener("mousemove", handlePainting);
     canvas.removeEventListener("mouseenter", handlePainting);
+    canvas.removeEventListener("mouseover", handlePainting);
 };
